@@ -4,7 +4,7 @@ import './Home.css';
 
 const Home = () => (
   <div className="Home">
-    <h1 className='display-1 m-3 p-3 text-success text-center'>Restoranų kurimo aplikacija</h1>
+    <h1 className='display-1 m-3 p-3 text-success text-center'>Restoranų kūrimo aplikacija</h1>
   </div>
 );
 

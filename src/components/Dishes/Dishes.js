@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { HashLink as Link } from 'react-router-hash-link';
 import './Dishes.css';
 
 function Dishes() {
@@ -6,6 +7,7 @@ function Dishes() {
   const [price, setPrice] = useState("");
   const [image, setImage] = useState("");
   const [restaurant, setRestaurant] = useState("");
+  const [restaurants, setRestaurants] = useState([]);
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [dishes, setDishes] = useState([]);
@@ -32,7 +34,8 @@ function Dishes() {
         setTitle(d.title);
         setPrice(d.price);
         setImage(d.image);
-        setRestaurant((d.restaurant === null) ? " " : d.restaurant_id)
+        setRestaurant((d.restaurant === null) ? " " : d.restaurant_id);
+        console.log(restaurant);
       }
     })
     setUpdateForm(true);
@@ -63,6 +66,16 @@ function Dishes() {
   }
 
   useEffect(() => {
+    fetch("http://localhost/api/v1/restaurants")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          setRestaurants(result); setIsLoaded(true);
+        },
+        (error) => { setError(error); setIsLoaded(true); })
+  }, [])
+
+  useEffect(() => {
     fetch("http://localhost/api/v1/dishes")
       .then(res => res.json())
       .then(
@@ -79,69 +92,84 @@ function Dishes() {
     return <div>Error: {error.message}</div>;
   } else {
     return (
-      <div className="container card mt-3">
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Pavadinimas</th>
-              <th>Kaina</th>
-              <th>Nuotrauka</th>
-              <th>Restoranas</th>
-              <th>Veiksmai</th>
-            </tr>
-          </thead>
-          <tbody>
-            {dishes.map(dish =>
-            (
-              <tr key={dish.id}>
-                <td>{dish.title}</td>
-                <td>{dish.price}</td>
-                <td><img style={{width:"150px", height:"150px", objectFit:"cover"}} src={dish.image} /></td>
-                {dish.restaurant !== null ? (<td>{dish.restaurant.title}</td>) : (<td></td>)}
-                <td>
-                  <div className='d-grid gap-2 d-md-block'><button onClick={(e) => selectDish(dish.id, e)} className="btn btn-success mx-1">Atnaujinti</button><button onClick={(e) => deleteDish(dish.id, e)} className="btn btn-dark">Ištrinti</button></div></td>
-                  
+      <>
+        <Link className="btn btn-success btn-lg d-block m-5" to="#create" role="button">Sukurti patiekalą</Link>
+        <div className="container card mt-3">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Pavadinimas</th>
+                <th>Kaina</th>
+                <th>Nuotrauka</th>
+                <th>Restoranas</th>
+                <th>Veiksmai</th>
               </tr>
+            </thead>
+            <tbody>
+              {dishes.map(dish =>
+              (
+                <tr key={dish.id}>
+                  <td>{dish.title}</td>
+                  <td>{dish.price}</td>
+                  <td><img style={{ width: "150px", height: "150px", objectFit: "cover" }} src={dish.image} /></td>
+                  {dish.restaurant !== null ? (<td>{dish.restaurant.title}</td>) : (<td></td>)}
+                  <td>
+                    <div className='d-grid gap-2 d-md-block'><Link to='#update' ><button onClick={(e) => selectDish(dish.id, e)} className="btn btn-success mx-1">Atnaujinti</button></Link><button onClick={(e) => deleteDish(dish.id, e)} className="btn btn-dark">Ištrinti</button></div></td>
+
+                </tr>
               )
-            )}
-          </tbody>
-        </table>
-        {!updateForm
-          ? <div className='card  mt-3 border-success'>
-            <h3 className='m-3 text-success text-center mt-5'> Pridėti patiekalą</h3>
-            <form className='container'>
-              <div className="form-group">
-                <input type="text" className="form-control m-1" placeholder='Pavadinimas' value={title} onChange={(e) => setTitle(e.target.value)} required />
-              </div>
-              <div className="form-group">
-                <input type="text" className="form-control m-1" placeholder='Kaina' value={price} onChange={(e) => setPrice(e.target.value)} required />
-              </div>  <div className="form-group">
-                <input type="text" className="form-control m-1" placeholder='Patiekalo nuotrauka' value={image} onChange={(e) => setImage(e.target.value)} required />
-              </div>  <div className="form-group">
-                {/* TODO: dropdown */}
-                <input type="text" className="form-control m-1" placeholder='Kur rasti' value={restaurant} onChange={(e) => setRestaurant(e.target.value)} />
-              </div>
-              <button onClick={createDish} className='bg-success btn float-end text-light m-3'>Pridėti</button>
-            </form>
-          </div>
-          : <div className='card  mt-3 border-success'>
-            <h3 className='m-3 text-success text-center mt-5'> Pakeisti patiekalą</h3>
-            <form className='container'>
-              <div className="form-group">
-                <input type="text" className="form-control m-1" placeholder='Pavadinimas' value={title} onChange={(e) => setTitle(e.target.value)} required />
-              </div>
-              <div className="form-group">
-                <input type="text" className="form-control m-1" placeholder='Kaina' value={price} onChange={(e) => setPrice(e.target.value)} required />
-              </div>  <div className="form-group">
-                <input type="text" className="form-control m-1" placeholder='Patiekalo nuotrauka' value={image} onChange={(e) => setImage(e.target.value)} required />
-              </div>  <div className="form-group">
-                {/* TODO: dropdown */}
-                <input type="text" className="form-control m-1" placeholder='Kur rasti' value={restaurant} onChange={(e) => setRestaurant(e.target.value)} />
-              </div><button onClick={(e) => setUpdateForm(false)} className='bg-dark btn float-end text-light m-3'>Atšaukti</button>
-              <button onClick={changeDish} className='bg-success btn float-end text-light m-3'>Pakeisti</button>
-            </form>
-          </div>}
-      </div>
+              )}
+            </tbody>
+          </table>
+          {!updateForm
+            ? <div id='create' className='card  mt-3 border-success'>
+              <h3 className='m-3 text-success text-center mt-5'> Sukurti patiekalą</h3>
+              <form className='container'>
+                <div className="form-group">
+                  <input type="text" className="form-control m-1" placeholder='Pavadinimas' value={title} onChange={(e) => setTitle(e.target.value)} required />
+                </div>
+                <div className="form-group">
+                  <input type="text" className="form-control m-1" placeholder='Kaina' value={price} onChange={(e) => setPrice(e.target.value)} required />
+                </div>  <div className="form-group">
+                  <input type="text" className="form-control m-1" placeholder='Patiekalo nuotrauka' value={image} onChange={(e) => setImage(e.target.value)} required />
+                </div>  <div className="form-group">
+                  <label className='my-3'>Priskirti patiekalą restoranui:</label>
+                  <select className='form-select dish' value={restaurant} onChange={(e) => setRestaurant(e.target.value)}>
+                    {restaurants.map(restaurant => (
+                      <option key={restaurant.id} value={restaurant.id} >{restaurant.title}</option>
+                    )
+                    )}
+                    <option value={""}>--Nepriklauso jokiam restoranui--</option>
+                  </select>
+                </div>
+                <button onClick={createDish} className='bg-success btn float-end text-light m-3'>Pridėti</button>
+              </form>
+            </div>
+            : <div id='update' className='card  mt-3 border-success'>
+              <h3 className='m-3 text-success text-center mt-5'> Pakeisti patiekalą</h3>
+              <form className='container'>
+                <div className="form-group">
+                  <input type="text" className="form-control m-1" placeholder='Pavadinimas' value={title} onChange={(e) => setTitle(e.target.value)} required />
+                </div>
+                <div className="form-group">
+                  <input type="text" className="form-control m-1" placeholder='Kaina' value={price} onChange={(e) => setPrice(e.target.value)} required />
+                </div>  <div className="form-group">
+                  <input type="text" className="form-control m-1" placeholder='Patiekalo nuotrauka' value={image} onChange={(e) => setImage(e.target.value)} required />
+                </div>  <div className="form-group">
+                  <label className='my-3'>Priskirti patiekalą restoranui:</label>
+                  <select className='form-select dish' value={restaurant} onChange={(e) => setRestaurant(e.target.value)}>
+                    <option value={""}>--Nepriklauso jokiam restoranui--</option>
+                    {restaurants.map(restaurant => (
+                      <option key={restaurant.id} value={restaurant.id} >{restaurant.title}</option>
+                    )
+                    )}
+                  </select>
+                </div><button onClick={(e) => setUpdateForm(false)} className='bg-dark btn float-end text-light m-3'>Atšaukti</button>
+                <button onClick={changeDish} className='bg-success btn float-end text-light m-3'>Pakeisti</button>
+              </form>
+            </div>}
+        </div>
+      </>
     );
   }
 }
