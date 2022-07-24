@@ -64,7 +64,6 @@ function Dishes() {
   }
 
   function deleteDish(id, e) {
-
     // fetch from heroku
     //  fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/dishes/" + id, { method: 'DELETE' })
 
