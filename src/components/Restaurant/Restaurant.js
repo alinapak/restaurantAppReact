@@ -20,7 +20,7 @@ function Restaurant() {
         formData.append('address', address);
         formData.append('work_time', workTime);
         console.log(formData);
-        fetch("http://localhost/api/v1/restaurants", {
+        fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants", {
             method: 'POST',
             body: formData
         });
@@ -45,13 +45,13 @@ function Restaurant() {
         formData.set('city', city);
         formData.set('address', address);
         formData.set('work_time', workTime);
-        fetch("http://localhost/api/v1/restaurants/" + restId, {
+        fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants/" + restId, {
             method: 'POST',
             body: formData
         })
     }
     function deleteRest(id, e) {
-        fetch("http://localhost/api/v1/restaurants/" + id, { method: 'DELETE' })
+        fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants/" + id, { method: 'DELETE' })
             .then((response) => {
                 // console.log(response);
                 if (response.status === 200) {
@@ -62,7 +62,7 @@ function Restaurant() {
     }
 
     useEffect(() => {
-        fetch("http://localhost/api/v1/restaurants")
+        fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants")
             .then(res => res.json())
             .then(
                 (result) => {
