@@ -21,7 +21,7 @@ function Dishes() {
     formData.append('price', price);
     formData.append('image', image);
     formData.append('restaurant_id', restaurant);
-    fetch("http://localhost/api/v1/dishes", {
+    fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/dishes", {
       method: 'POST',
       body: formData
     });
@@ -48,14 +48,14 @@ function Dishes() {
     formData.set('price', price);
     formData.set('image', image);
     formData.set('restaurant_id', restaurant);
-    fetch("http://localhost/api/v1/dishes/" + dishId, {
+    fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/dishes/" + dishId, {
       method: 'POST',
       body: formData
     })
   }
 
   function deleteDish(id, e) {
-    fetch("http://localhost/api/v1/dishes/" + id, { method: 'DELETE' })
+    fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/dishes/" + id, { method: 'DELETE' })
       .then((response) => {
         console.log(response);
         if (response.status === 200) {
@@ -66,7 +66,7 @@ function Dishes() {
   }
 
   useEffect(() => {
-    fetch("http://localhost/api/v1/restaurants")
+    fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants")
       .then(res => res.json())
       .then(
         (result) => {
@@ -76,7 +76,7 @@ function Dishes() {
   }, [])
 
   useEffect(() => {
-    fetch("http://localhost/api/v1/dishes")
+    fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/dishes")
       .then(res => res.json())
       .then(
         (result) => {
