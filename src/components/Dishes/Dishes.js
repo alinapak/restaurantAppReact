@@ -5,7 +5,7 @@ import './Dishes.css';
 function Dishes() {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
-  const [image, setImage] = useState("");
+  const [file, setFile] = useState("");
   const [restaurant, setRestaurant] = useState("");
   const [restaurants, setRestaurants] = useState([]);
   const [error, setError] = useState(null);
@@ -15,12 +15,17 @@ function Dishes() {
   const [dishId, setDishId] = useState("");
 
   function createDish() {
-    console.warn(title, price, image, restaurant);
+    console.warn(title, price, file, restaurant);
     const formData = new FormData();
     formData.append('title', title);
     formData.append('price', price);
-    formData.append('image', image);
+    formData.append('file', file);
     formData.append('restaurant_id', restaurant);
+
+    // fetch from heroku
+    // fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/dishes", {
+
+    // fetch while creating project
     fetch("http://localhost/api/v1/dishes", {
       method: 'POST',
       body: formData
@@ -28,12 +33,13 @@ function Dishes() {
   }
 
   function selectDish(id, e) {
+    console.warn(title, price, file, restaurant);
     dishes.map((d) => {
       if (d.id === id) {
         setDishId(d.id);
         setTitle(d.title);
         setPrice(d.price);
-        setImage(d.image);
+        setFile(d.file);
         setRestaurant((d.restaurant === null) ? " " : d.restaurant_id);
         console.log(restaurant);
       }
@@ -46,8 +52,11 @@ function Dishes() {
     formData.set("_method", "PUT");
     formData.set('title', title);
     formData.set('price', price);
-    formData.set('image', image);
+    formData.set('file', file);
     formData.set('restaurant_id', restaurant);
+    // fetch from heroku
+    // fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/dishes/" + dishId, {
+    // fetch while creating app
     fetch("http://localhost/api/v1/dishes/" + dishId, {
       method: 'POST',
       body: formData
@@ -55,6 +64,11 @@ function Dishes() {
   }
 
   function deleteDish(id, e) {
+
+    // fetch from heroku
+    //  fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/dishes/" + id, { method: 'DELETE' })
+
+    // fetch while creating project
     fetch("http://localhost/api/v1/dishes/" + id, { method: 'DELETE' })
       .then((response) => {
         console.log(response);
@@ -66,6 +80,10 @@ function Dishes() {
   }
 
   useEffect(() => {
+    // fetch from heroku
+    //  fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants")
+
+    // fetch while creating app
     fetch("http://localhost/api/v1/restaurants")
       .then(res => res.json())
       .then(
@@ -76,6 +94,9 @@ function Dishes() {
   }, [])
 
   useEffect(() => {
+    // fetch from heroku
+    //fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/dishes")
+    // fetch while creating app
     fetch("http://localhost/api/v1/dishes")
       .then(res => res.json())
       .then(
@@ -111,7 +132,7 @@ function Dishes() {
                 <tr key={dish.id}>
                   <td>{dish.title}</td>
                   <td>{dish.price}</td>
-                  <td><img style={{ width: "150px", height: "150px", objectFit: "cover" }} src={dish.image} /></td>
+                  <td><img style={{ width: "150px", height: "150px", objectFit: "cover" }} src={'http://localhost/' + dish.file} /></td>
                   {dish.restaurant !== null ? (<td>{dish.restaurant.title}</td>) : (<td></td>)}
                   <td>
                     <div className='d-grid gap-2 d-md-block'><Link to='#update' ><button onClick={(e) => selectDish(dish.id, e)} className="btn btn-success mx-1">Atnaujinti</button></Link><button onClick={(e) => deleteDish(dish.id, e)} className="btn btn-dark">Ištrinti</button></div></td>
@@ -131,7 +152,8 @@ function Dishes() {
                 <div className="form-group">
                   <input type="text" className="form-control m-1" placeholder='Kaina' value={price} onChange={(e) => setPrice(e.target.value)} required />
                 </div>  <div className="form-group">
-                  <input type="text" className="form-control m-1" placeholder='Patiekalo nuotrauka' value={image} onChange={(e) => setImage(e.target.value)} required />
+                  <label htmlFor="formFile" className="form-label my-3">Įkelti patiekalo nuotrauką</label>
+                  <input type="file" className=" m-1" placeholder='Patiekalo nuotrauka' name='file' onChange={(e) => setFile(e.target.files[0])} />
                 </div>  <div className="form-group">
                   <label className='my-3'>Priskirti patiekalą restoranui:</label>
                   <select className='form-select dish' value={restaurant} onChange={(e) => setRestaurant(e.target.value)}>
@@ -154,7 +176,8 @@ function Dishes() {
                 <div className="form-group">
                   <input type="text" className="form-control m-1" placeholder='Kaina' value={price} onChange={(e) => setPrice(e.target.value)} required />
                 </div>  <div className="form-group">
-                  <input type="text" className="form-control m-1" placeholder='Patiekalo nuotrauka' value={image} onChange={(e) => setImage(e.target.value)} required />
+                  <label htmlFor="formFile" className="form-label my-3">Atnaujinti patiekalo nuotrauką</label>
+                  <input type="file" className=" m-1" placeholder='Patiekalo nuotrauka' name='file' onChange={(e) => setFile(e.target.files[0])} required />
                 </div>  <div className="form-group">
                   <label className='my-3'>Priskirti patiekalą restoranui:</label>
                   <select className='form-select dish' value={restaurant} onChange={(e) => setRestaurant(e.target.value)}>

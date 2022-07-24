@@ -19,7 +19,9 @@ function Restaurant() {
         formData.append('city', city);
         formData.append('address', address);
         formData.append('work_time', workTime);
-        console.log(formData);
+        // fetch from heroku
+        //  fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants", {
+        // fetch while creating app
         fetch("http://localhost/api/v1/restaurants", {
             method: 'POST',
             body: formData
@@ -45,15 +47,19 @@ function Restaurant() {
         formData.set('city', city);
         formData.set('address', address);
         formData.set('work_time', workTime);
+        // fetch from heroku
+        //   fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants/" + restId, {
+            // fetch while creating app
         fetch("http://localhost/api/v1/restaurants/" + restId, {
             method: 'POST',
             body: formData
         })
     }
     function deleteRest(id, e) {
+        // fetch from heroku
+        // fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants/" + id, { method: 'DELETE' })
         fetch("http://localhost/api/v1/restaurants/" + id, { method: 'DELETE' })
             .then((response) => {
-                // console.log(response);
                 if (response.status === 200) {
                     const remaining = restaurants.filter(r => id !== r.id)
                     setRestaurants(remaining)
@@ -62,6 +68,9 @@ function Restaurant() {
     }
 
     useEffect(() => {
+        // fetch from heroku
+        // fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants")
+        // fetch while creating app
         fetch("http://localhost/api/v1/restaurants")
             .then(res => res.json())
             .then(
