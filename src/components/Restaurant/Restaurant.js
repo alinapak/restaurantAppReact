@@ -12,6 +12,7 @@ function Restaurant() {
     const [workTime, setWorkTime] = useState("");
     const [updateForm, setUpdateForm] = useState(false);
     const [restId, setRestId] = useState("");
+    const [token, _] = useState(localStorage.getItem("token"));
 
     function createRest() {
         const formData = new FormData();
@@ -24,6 +25,7 @@ function Restaurant() {
         // fetch while creating app
         fetch("http://localhost/api/v1/restaurants", {
             method: 'POST',
+            headers: { 'Accept': 'application/json', "Authorization": `Bearer ${token}` },
             body: formData
         });
     }
@@ -49,16 +51,17 @@ function Restaurant() {
         formData.set('work_time', workTime);
         // fetch from heroku
         //   fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants/" + restId, {
-            // fetch while creating app
+        // fetch while creating app
         fetch("http://localhost/api/v1/restaurants/" + restId, {
             method: 'POST',
+            headers: { 'Accept': 'application/json', "Authorization": `Bearer ${token}` },
             body: formData
         })
     }
     function deleteRest(id, e) {
         // fetch from heroku
         // fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants/" + id, { method: 'DELETE' })
-        fetch("http://localhost/api/v1/restaurants/" + id, { method: 'DELETE' })
+        fetch("http://localhost/api/v1/restaurants/" + id, { method: 'DELETE', headers: { 'Accept': 'application/json', "Authorization": `Bearer ${token}` } })
             .then((response) => {
                 if (response.status === 200) {
                     const remaining = restaurants.filter(r => id !== r.id)
@@ -71,10 +74,14 @@ function Restaurant() {
         // fetch from heroku
         // fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants")
         // fetch while creating app
-        fetch("http://localhost/api/v1/restaurants")
+        fetch("http://localhost/api/v1/restaurants", { headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', "Authorization": `Bearer ${token}` } })
             .then(res => res.json())
             .then(
                 (result) => {
+                    // if(!result.ok) {
+                    //     setError(result);
+                    //     setIsLoaded(true);
+                    // }
                     setRestaurants(result);
                     setIsLoaded(true);
                 },

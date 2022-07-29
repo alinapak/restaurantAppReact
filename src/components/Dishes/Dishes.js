@@ -13,6 +13,7 @@ function Dishes() {
   const [dishes, setDishes] = useState([]);
   const [updateForm, setUpdateForm] = useState(false);
   const [dishId, setDishId] = useState("");
+  const [token, _] = useState(localStorage.getItem("token"));
 
   function createDish() {
     console.warn(title, price, file, restaurant);
@@ -28,6 +29,7 @@ function Dishes() {
     // fetch while creating project
     fetch("http://localhost/api/v1/dishes", {
       method: 'POST',
+      headers:{ 'Accept': 'application/json', "Authorization": `Bearer ${token}` },
       body: formData
     });
   }
@@ -59,6 +61,7 @@ function Dishes() {
     // fetch while creating app
     fetch("http://localhost/api/v1/dishes/" + dishId, {
       method: 'POST',
+      headers:{ 'Accept': 'application/json', "Authorization": `Bearer ${token}` },
       body: formData
     })
   }
@@ -68,7 +71,7 @@ function Dishes() {
     //  fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/dishes/" + id, { method: 'DELETE' })
 
     // fetch while creating project
-    fetch("http://localhost/api/v1/dishes/" + id, { method: 'DELETE' })
+    fetch("http://localhost/api/v1/dishes/" + id, { method: 'DELETE', headers:{ 'Accept': 'application/json', "Authorization": `Bearer ${token}` } })
       .then((response) => {
         console.log(response);
         if (response.status === 200) {
@@ -83,7 +86,7 @@ function Dishes() {
     //  fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants")
 
     // fetch while creating app
-    fetch("http://localhost/api/v1/restaurants")
+    fetch("http://localhost/api/v1/restaurants", {headers: {'Content-Type':'application/json', 'Accept': 'application/json', "Authorization": `Bearer ${token}`}})
       .then(res => res.json())
       .then(
         (result) => {
@@ -96,10 +99,14 @@ function Dishes() {
     // fetch from heroku
     //fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/dishes")
     // fetch while creating app
-    fetch("http://localhost/api/v1/dishes")
+    fetch("http://localhost/api/v1/dishes",{headers: {'Content-Type':'application/json', 'Accept': 'application/json', "Authorization": `Bearer ${token}`}})
       .then(res => res.json())
       .then(
         (result) => {
+        //   if(!result.ok) {
+        //     setError(result);
+        //     setIsLoaded(true);
+        // }
           console.log(result); // <--- check this out in the console
           setDishes(result); setIsLoaded(true);
         },
