@@ -24,10 +24,10 @@ function Dishes() {
     formData.append('restaurant_id', restaurant);
 
     // fetch from heroku
-    // fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/dishes", {
+    fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/dishes", {
 
     // fetch while creating project
-    fetch("http://localhost/api/v1/dishes", {
+    // fetch("http://localhost/api/v1/dishes", {
       method: 'POST',
       headers:{ 'Accept': 'application/json', "Authorization": `Bearer ${token}` },
       body: formData
@@ -57,9 +57,9 @@ function Dishes() {
     formData.set('file', file);
     formData.set('restaurant_id', restaurant);
     // fetch from heroku
-    // fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/dishes/" + dishId, {
+    fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/dishes/" + dishId, {
     // fetch while creating app
-    fetch("http://localhost/api/v1/dishes/" + dishId, {
+    // fetch("http://localhost/api/v1/dishes/" + dishId, {
       method: 'POST',
       headers:{ 'Accept': 'application/json', "Authorization": `Bearer ${token}` },
       body: formData
@@ -68,10 +68,11 @@ function Dishes() {
 
   function deleteDish(id, e) {
     // fetch from heroku
-    //  fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/dishes/" + id, { method: 'DELETE' })
+     fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/dishes/" + id, { method: 'DELETE',
 
     // fetch while creating project
-    fetch("http://localhost/api/v1/dishes/" + id, { method: 'DELETE', headers:{ 'Accept': 'application/json', "Authorization": `Bearer ${token}` } })
+    // fetch("http://localhost/api/v1/dishes/" + id, { method: 'DELETE',
+     headers:{ 'Accept': 'application/json', "Authorization": `Bearer ${token}` } })
       .then((response) => {
         console.log(response);
         if (response.status === 200) {
@@ -83,10 +84,11 @@ function Dishes() {
 
   useEffect(() => {
     // fetch from heroku
-    //  fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants")
+     fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants",
 
     // fetch while creating app
-    fetch("http://localhost/api/v1/restaurants", {headers: {'Content-Type':'application/json', 'Accept': 'application/json', "Authorization": `Bearer ${token}`}})
+    // fetch("http://localhost/api/v1/restaurants",
+     {headers: {'Content-Type':'application/json', 'Accept': 'application/json', "Authorization": `Bearer ${token}`}})
       .then(res => res.json())
       .then(
         (result) => {
@@ -97,9 +99,10 @@ function Dishes() {
 
   useEffect(() => {
     // fetch from heroku
-    //fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/dishes")
+    fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/dishes",
     // fetch while creating app
-    fetch("http://localhost/api/v1/dishes",{headers: {'Content-Type':'application/json', 'Accept': 'application/json', "Authorization": `Bearer ${token}`}})
+    // fetch("http://localhost/api/v1/dishes",
+    {headers: {'Content-Type':'application/json', 'Accept': 'application/json', "Authorization": `Bearer ${token}`}})
       .then(res => res.json())
       .then(
         (result) => {

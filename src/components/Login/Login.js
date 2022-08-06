@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 async function loginUser(credentials) {
   console.log(JSON.stringify(credentials));
-  return fetch('http://localhost/api/login',
+  // return fetch('http://localhost/api/login',
+  return fetch('https://lara-restaurant-prepare.herokuapp.com/api/login',
     {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(credentials)

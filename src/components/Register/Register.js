@@ -16,7 +16,7 @@ function Register() {
     formData.append('email', email);
     formData.append('password', password);
 
-    await fetch("http://localhost/api/register", {
+    await fetch("https://lara-restaurant-prepare.herokuapp.com/api/register", {
       method: 'POST',
       body: formData,
       headers: { "Accept": 'application/json'},

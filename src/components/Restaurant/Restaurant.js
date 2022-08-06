@@ -21,9 +21,9 @@ function Restaurant() {
         formData.append('address', address);
         formData.append('work_time', workTime);
         // fetch from heroku
-        //  fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants", {
+         fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants", {
         // fetch while creating app
-        fetch("http://localhost/api/v1/restaurants", {
+        // fetch("http://localhost/api/v1/restaurants", {
             method: 'POST',
             headers: { 'Accept': 'application/json', "Authorization": `Bearer ${token}` },
             body: formData
@@ -50,9 +50,9 @@ function Restaurant() {
         formData.set('address', address);
         formData.set('work_time', workTime);
         // fetch from heroku
-        //   fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants/" + restId, {
+          fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants/" + restId, {
         // fetch while creating app
-        fetch("http://localhost/api/v1/restaurants/" + restId, {
+        // fetch("http://localhost/api/v1/restaurants/" + restId, {
             method: 'POST',
             headers: { 'Accept': 'application/json', "Authorization": `Bearer ${token}` },
             body: formData
@@ -60,8 +60,9 @@ function Restaurant() {
     }
     function deleteRest(id, e) {
         // fetch from heroku
-        // fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants/" + id, { method: 'DELETE' })
-        fetch("http://localhost/api/v1/restaurants/" + id, { method: 'DELETE', headers: { 'Accept': 'application/json', "Authorization": `Bearer ${token}` } })
+        fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants/" + id, 
+        // fetch("http://localhost/api/v1/restaurants/" + id, 
+        { method: 'DELETE', headers: { 'Accept': 'application/json', "Authorization": `Bearer ${token}` } })
             .then((response) => {
                 if (response.status === 200) {
                     const remaining = restaurants.filter(r => id !== r.id)
@@ -72,9 +73,10 @@ function Restaurant() {
 
     useEffect(() => {
         // fetch from heroku
-        // fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants")
+        fetch("https://lara-restaurant-prepare.herokuapp.com/api/v1/restaurants",
         // fetch while creating app
-        fetch("http://localhost/api/v1/restaurants", { headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', "Authorization": `Bearer ${token}` } })
+        // fetch("http://localhost/api/v1/restaurants",
+         { headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', "Authorization": `Bearer ${token}` } })
             .then(res => res.json())
             .then(
                 (result) => {
