@@ -141,7 +141,7 @@ function Dishes() {
                 <tr key={dish.id}>
                   <td>{dish.title}</td>
                   <td>{dish.price}</td>
-                  <td><img style={{ width: "150px", height: "150px", objectFit: "cover" }} src={'http://localhost/' + dish.file} /></td>
+                  <td><img style={{ width: "150px", height: "150px", objectFit: "cover" }} src={'https://lara-restaurant-prepare.herokuapp.com/' + dish.file} /></td>
                   {dish.restaurant !== null ? (<td>{dish.restaurant.title}</td>) : (<td></td>)}
                   <td>
                     <div className='d-grid gap-2 d-md-block'><Link to='#update' ><button onClick={(e) => selectDish(dish.id, e)} className="btn btn-success mx-1">Atnaujinti</button></Link><button onClick={(e) => deleteDish(dish.id, e)} className="btn btn-dark">Ištrinti</button></div></td>
